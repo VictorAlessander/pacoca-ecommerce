@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Products{% endblock %}
+
+
+{% block body %}
+
+<div class="container" style="margin-top: 200px; margin-bottom: 200px;">
+
+  <div class="row">
+  	
+  	{% for product in products %}
+    
+    <div class="col-lg-4">
+      <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+      <h2>{{product.name}}</h2>
+      <p>Price: {{product.price}}</p>
+      <p><a class="btn btn-default" href="#" role="button">Buy &raquo;</a></p>
+    </div>
+
+    {% endfor %}
+   
+   </div>
+
+</div>
+
+{% endblock %}
