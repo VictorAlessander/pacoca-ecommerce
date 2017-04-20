@@ -6,8 +6,16 @@
 {% block body %}
 
 <div class="container" style="margin-top: 200px; margin-bottom: 200px; text-align: center">
+	{% if user.is_authenticated %}
+		<h3>Welcome {{user.username}}</h3>
+		<a class="btn btn-danger" href="{% url 'logout' %}">Logout</a>
+
+	{% else %}
 	<h2>FACEBOOK AUTH</h2>
-	<a class="btn btn-danger" href="{% url 'core:category_list' %}">Pass</a>
+	<a class="btn btn-primary" href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a>
+	
+	{% endif %}
+
 </div>
 
 {% endblock %}
