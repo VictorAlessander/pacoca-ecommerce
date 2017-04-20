@@ -5,19 +5,22 @@
 {% block body %}
 
 <div class="container marketing" style="margin-bottom: 200px; margin-top: 200px;">
-  {% for category in categories %}
 
-  <!-- Three columns of text below the carousel -->
   <div class="row">
+  
+  {% for category in categories %}
+    
     <div class="col-lg-4">
       <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
       <h2>{{category.name}}</h2>
       <p>{{category.description}}</p>
       <p><a class="btn btn-default" href="{% url 'core:product_list' category.name %}" role="button">View details &raquo;</a></p>
     </div>
-  </div>
 
   {% endfor %}
+  
+  </div>
 
 </div>
+
 {% endblock %}
