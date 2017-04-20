@@ -40,6 +40,12 @@ INSTALLED_APPS = [
     
     # APPS
     'core',
+
+    # API
+    'tastypie',
+
+    #PACKAGES
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +56,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # PACKAGE social_django
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'ecommerce.urls'
@@ -65,6 +74,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # PACKAGE social_django
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -103,6 +116,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.facebook.FacebookOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -121,3 +141,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGIN_URL = '/'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = 'core:category_list'
+
+# KEYS OF FACEBOOK APP
+SOCIAL_AUTH_FACEBOOK_KEY = '201751166995826'
+SOCIAL_AUTH_FACEBOOK_SECRET = '1f79b81e2c21923124d07229d4209155'
+
+# TASTYPIE DEFAULT FORMAT RETURN
+TASTYPIE_DEFAULT_FORMATS = ['json']
