@@ -15,8 +15,8 @@
     <div class="col-lg-4">
       <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
       <h2>{{product.name}}</h2>
-      <p>Price: {{product.price}}</p>
-      <p><a class="btn btn-default" href="#" role="button">Buy &raquo;</a></p>
+      <p>Price: R$ {{product.price}}</p>
+      <p><a class="btn btn-default" href="{% url 'core:add_to_cart' item_cod=product.cod %}" role="button">Buy &raquo;</a></p>
     </div>
 
     {% endfor %}
