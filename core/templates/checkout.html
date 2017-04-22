@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Cart{% endblock %}
+
+
+{% block body %}
+
+<div class="container" style="margin-top: 200px; margin-bottom: 200px;">
+
+	<h1 align="center" style="margin-top: -100px; margin-bottom: 100px;">Checkout</h1>
+	
+	<table class="table table-striped">
+
+	<thead>
+		<tr>
+			<td>Cod</td>
+			<td>Product Name</td>
+			<td>Quantity</td>
+			<td>Price</td>
+		</tr>
+	</thead>
+
+
+	{% for item in item_list %}
+
+		<tbody>
+			<tr>
+				<td>{{item.cod}}</td>
+				<td>{{item.name}}</td>
+				<td>{{item.quantity}}</td>
+				<td>R$ {{item.price}}</td>
+			</tr>
+		</tbody>
+
+	{% endfor %}
+	</table>
+
+
+	<a type=button class="btn btn-primary" href="{% url 'core:category_list' %}" style="margin-top: 50px;">Return to categories</a>
+	<a type=button class="btn btn-success" href="#" style="margin-top: 50px;">Finish order</a>
+</div>
+
+{% endblock %}
