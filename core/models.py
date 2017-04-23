@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.db.models import Sum
 
 
 class Category(models.Model):
@@ -22,7 +23,7 @@ class Product(models.Model):
 		return self.name
 
 
-class Cart(models.Model):
+class MCart(models.Model):
 
 	cod = models.PositiveIntegerField()
 	name = models.CharField(max_length=150)
@@ -30,7 +31,16 @@ class Cart(models.Model):
 	quantity = models.PositiveIntegerField(default=1)
 	date = models.DateTimeField(null=True, blank=True)
 
-	def save_order(self):
-		owner = models.ForeignKey('auth.User')
-		self.date = timezone.now()
-		self.save()
+	def total(self):
+		aggregate_queryset = MCart.objects.all().aggregate(
+			total_price=Sum(models.F('price') * models.F('quantity'), 
+				output_field=models.DecimalField(decimal_places=2, max_digits=8)
+				)
+			)
+
+		return aggregate_queryset['total_price']
+
+	#def save_order(self):
+		#owner = models.ForeignKey('auth.User')
+		#self.date = timezone.now()
+		#self.save()

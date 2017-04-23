@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
-from .models import Category, Product, Cart
+from .models import Category, Product, MCart
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 
@@ -30,24 +30,26 @@ def add_to_cart(request, item_cod):
 
 	item = get_object_or_404(Product, cod=item_cod)
 
-	if Cart.objects.filter(name=item.name).exists():
-		increase_item = Cart.objects.get(cod=item_cod, name=item.name)
+	if MCart.objects.filter(name=item.name).exists():
+		increase_item = MCart.objects.get(cod=item_cod, name=item.name)
 		increase_item.quantity = increase_item.quantity + 1
 		increase_item.save()
 
 	else:
-		add = Cart.objects.create(
+		add = MCart.objects.create(
 			cod=item.cod,
 			name=item.name,
 			price=item.price,
 			)
 
-	return redirect('core:checkout')
+	return redirect('core:cart')
 
 
 @login_required
-def checkout(request):
+def cart(request):
 
-	item_list = Cart.objects.all()
+	item_list = MCart.objects.all()
+	total_price = MCart()
+	total_price = total_price.total()
 
-	return render(request, 'checkout.html', {'item_list': item_list})
+	return render(request, 'cart.html', {'item_list': item_list, 'total_price': total_price})
