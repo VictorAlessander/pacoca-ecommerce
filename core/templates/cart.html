@@ -33,11 +33,14 @@
 		</tbody>
 
 	{% endfor %}
+			<tr>
+				<td>TOTAL: R$ {{total_price}}</td>
+			</tr>
 	</table>
 
 
-	<a type=button class="btn btn-primary" href="{% url 'core:category_list' %}" style="margin-top: 50px;">Return to categories</a>
-	<a type=button class="btn btn-success" href="#" style="margin-top: 50px;">Finish order</a>
+	<a type=button class="btn btn-primary" href="{% url 'core:category_list' %}" style="margin-top: 50px;">Continue shopping</a>
+	<a type=button class="btn btn-success" href="#" style="margin-top: 50px;">Proceed to checkout</a>
 </div>
 
 {% endblock %}
