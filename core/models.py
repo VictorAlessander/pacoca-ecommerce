@@ -5,6 +5,7 @@ from django.db.models import Sum
 
 class Category(models.Model):
 
+	cod = models.PositiveIntegerField()
 	name = models.CharField(max_length=30)
 	description = models.TextField()
 
@@ -14,7 +15,7 @@ class Category(models.Model):
 
 class Product(models.Model):
 
-	cod = models.IntegerField()
+	cod = models.PositiveIntegerField()
 	name = models.CharField(max_length=150)
 	price = models.DecimalField(decimal_places=2, max_digits=8)
 	category = models.ForeignKey(Category)
