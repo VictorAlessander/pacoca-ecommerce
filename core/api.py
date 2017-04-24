@@ -8,10 +8,11 @@ class CategoryResource(ModelResource):
 	class Meta:
 		queryset = Category.objects.all()
 		resource_name = 'category'
+		excludes = ['id']
 
 
 class ProductResource(ModelResource):
-	category = fields.CharField(attribute="category")
+	category_cod = fields.IntegerField(attribute='category__cod')
 
 	class Meta:
 		queryset = Product.objects.all()
