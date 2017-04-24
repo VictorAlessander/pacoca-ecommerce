@@ -11,7 +11,7 @@
 		<a class="btn btn-danger" href="{% url 'logout' %}">Logout</a>
 
 	{% else %}
-	<h2>FACEBOOK AUTH</h2>
+
 	<a class="btn btn-primary" href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a>
 	
 	{% endif %}
