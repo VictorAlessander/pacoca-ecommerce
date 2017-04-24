@@ -17,4 +17,4 @@ class ProductResource(ModelResource):
 	class Meta:
 		queryset = Product.objects.all()
 		resource_name = 'product'
-		excludes = ['id']
+		excludes = ['id', 'image']
