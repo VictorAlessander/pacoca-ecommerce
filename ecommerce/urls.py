@@ -16,9 +16,10 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-
 from core.api import CategoryResource, ProductResource
 from tastypie.api import Api
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 my_api = Api(api_name='ecommerce')
@@ -34,3 +35,6 @@ urlpatterns = [
 
     url(r'^api/', include(my_api.urls)),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
