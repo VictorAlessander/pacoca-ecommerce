@@ -1,10 +1,5 @@
 from django.conf.urls import url, include
 from . import views
-from .api import CategoryResource, ProductResource
-
-
-category_resource = CategoryResource()
-product_resource = ProductResource()
 
 
 urlpatterns = [
@@ -14,8 +9,4 @@ urlpatterns = [
 	url(r'^add/(?P<item_cod>\d+)/$', views.add_to_cart, name='add_to_cart'),
 	url(r'^remove/(?P<item_cod>\d+)/$', views.remove_of_cart, name='remove_of_cart'),
 	url(r'^cart/$', views.cart, name='cart'),
-
-
-	url(r'^api/', include(category_resource.urls)),
-	url(r'^api/', include(product_resource.urls)),
 ]
