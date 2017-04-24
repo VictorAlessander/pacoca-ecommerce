@@ -46,6 +46,23 @@ def add_to_cart(request, item_cod):
 
 
 @login_required
+def remove_of_cart(request, item_cod):
+
+	item = get_object_or_404(MCart, cod=item_cod)
+
+	if MCart.objects.filter(name=item.name).exists():
+		decrease_item = MCart.objects.get(cod=item_cod, name=item.name)
+		if decrease_item.quantity < 1:
+			item.delete()
+
+		else:
+			decrease_item.quantity = decrease_item.quantity - 1
+			decrease_item.save()
+
+	return redirect('core:cart')
+
+
+@login_required
 def cart(request):
 
 	item_list = MCart.objects.all()

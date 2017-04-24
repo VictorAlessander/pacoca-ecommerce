@@ -17,6 +17,7 @@
 			<td>Product Name</td>
 			<td>Quantity</td>
 			<td>Price</td>
+			<td></td>
 		</tr>
 	</thead>
 
@@ -29,13 +30,23 @@
 				<td>{{item.name}}</td>
 				<td>{{item.quantity}}</td>
 				<td>R$ {{item.price}}</td>
+				<td><a type="button" class="btn btn-danger" href="{% url 'core:remove_of_cart' item.cod %}">Remove</a></td>
 			</tr>
 		</tbody>
 
 	{% endfor %}
+
+			{% if total_price %}
 			<tr>
 				<td>TOTAL: R$ {{total_price}}</td>
 			</tr>
+
+			{% else %}
+			<tr>
+				<td>TOTAL: R$ 0</td>
+			</tr>
+
+			{% endif %}
 	</table>
 
 
