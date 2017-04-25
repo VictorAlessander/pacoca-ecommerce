@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
-from .models import Category, Product, MCart
+from .models import Category, Product, MCart, Order
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+from .forms import FilterForm
 
 
 class Index(TemplateView):
@@ -70,3 +71,69 @@ def cart(request):
 	total_price = total_price.total()
 
 	return render(request, 'cart.html', {'item_list': item_list, 'total_price': total_price})
+
+
+@login_required
+def checkout(request):
+
+	order = MCart.objects.all()
+	total_price = MCart()
+	total_price = total_price.total()
+
+	return render(request, 'checkout.html', {'order': order, 'order_price': total_price})
+
+
+@login_required
+def submit_order(request):
+
+	user = request.user
+	cart = MCart.objects.all()
+
+	for item in cart:
+		if Order.objects.filter(id=item.id, name=item.name).exists():
+			increase_item = Order.objects.get(name=item.name)
+			increase_item.quantity = increase_item.quantity + 1
+			increase_item.save()
+
+		else:
+			submit = Order.objects.create(
+				cod=item.cod,
+				name=item.name,
+				price=item.price,
+				quantity=item.quantity,
+				owner=user,
+				session_id=request.session.session_key
+				)
+
+			submit.save_order()
+
+	cart.delete()
+
+	return redirect('core:order_list')
+
+
+@login_required
+def order_list(request):
+
+	user = request.user
+	orders = Order.objects.filter(owner=request.user)
+
+	if request.method == 'GET':
+		form = FilterForm(request.GET or None)
+
+		if form.is_valid():
+
+			field_content = {
+				'session_id': request.GET['session_id']
+			}
+			
+			if field_content['session_id']:
+				orders = Order.objects.filter(
+					session_id=form.cleaned_data.get('session_id'),
+					owner=request.user
+					)
+
+	else:
+		form = FilterForm()
+
+	return render(request, 'order_list.html', {'orders': orders, 'form': form})

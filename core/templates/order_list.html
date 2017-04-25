@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Historic{% endblock %}
+
+{% block body %}
+
+<div class="container" style="margin-top: 200px; margin-bottom: 200px;">
+
+	<h1 align="center" style="margin-top: -100px; margin-bottom: 100px;">Orders of {{user.username}}</h1>
+
+	<form class="form-control form-inline" method="get" enctype="multipart/form-data" style="margin-bottom: 50px;">
+	
+		<div class="form-group">
+			{{form.as_p}}
+		</div>
+	
+		<button type="submit" class="btn btn-primary">Filtrate</button>
+	
+	</form>
+	
+	<table class="table table-bordered">
+
+	<thead>
+		<tr>
+			<td>Cod</td>
+			<td>Product Name</td>
+			<td>Quantity</td>
+			<td>Price</td>
+		</tr>
+	</thead>
+
+
+	{% for product in orders %}
+
+		<tbody>
+			<tr>
+				<td>{{product.cod}}</td>
+				<td>{{product.name}}</td>
+				<td>{{product.quantity}}</td>
+				<td>R$ {{product.price}}</td>
+			</tr>
+		</tbody>
+
+	{% endfor %}
+
+			<tr>
+				<td>TOTAL: R$ #</td>
+			</tr>
+	</table>
+
+
+	<a type=button class="btn btn-primary" href="{% url 'core:index' %}" style="margin-top: 50px;">Return to index</a>
+
+</div>
+
+{% endblock %}
