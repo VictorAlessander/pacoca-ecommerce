@@ -40,7 +40,7 @@
                 <li class="active"><a href="{% url 'core:index' %}">Home</a></li>
                 <li><a href="{% url 'core:category_list' %}">Categories</a></li>
                 {% if user.is_authenticated %}
-                <li style="margin-left: 690px;"><a>{{user.username}}</a></li>
+                <li style="margin-left: 690px;"><a href="#">{{user.username}}</a></li>
                 {% endif %}
               </ul>
             </div>
