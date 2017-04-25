@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
 {% block title %}Your Cart{% endblock %}
 
 
@@ -30,7 +32,7 @@
 				<td>{{item.name}}</td>
 				<td>{{item.quantity}}</td>
 				<td>R$ {{item.price}}</td>
-				<td><a type="button" class="btn btn-danger" href="{% url 'core:remove_of_cart' item.cod %}">Remove</a></td>
+				<td><a type="button" onclick="return confirmation()" class="btn btn-danger" href="{% url 'core:remove_of_cart' item.cod %}">Remove</a></td>
 			</tr>
 		</tbody>
 
@@ -52,6 +54,8 @@
 
 	<a type=button class="btn btn-primary" href="{% url 'core:category_list' %}" style="margin-top: 50px;">Continue shopping</a>
 	<a type=button class="btn btn-success" href="#" style="margin-top: 50px;">Proceed to checkout</a>
+
 </div>
 
+<script src="{% static 'javascript/cart.js' %}"></script>
 {% endblock %}

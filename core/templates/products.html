@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
 
 {% block title %}Products{% endblock %}
 
@@ -18,7 +19,7 @@
       {% endif %}
       <h2>{{product.name}}</h2>
       <p>Price: R$ {{product.price}}</p>
-      <p><a class="btn btn-default" href="{% url 'core:add_to_cart' item_cod=product.cod %}" role="button">Buy &raquo;</a></p>
+      <p><a class="btn btn-default" onclick="return added_to_cart()" href="{% url 'core:add_to_cart' item_cod=product.cod %}" role="button">Buy &raquo;</a></p>
     </div>
 
     {% endfor %}
@@ -26,5 +27,7 @@
    </div>
 
 </div>
+
+<script src="{% static 'javascript/products.js' %}"></script>
 
 {% endblock %}
