@@ -21,27 +21,27 @@
 	</thead>
 
 
-	
+	{% for item in order %}
 
 		<tbody>
 			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td>R$ </td>
+				<td>{{item.cod}}</td>
+				<td>{{item.name}}</td>
+				<td>{{item.quantity}}</td>
+				<td>R$ {{item.price}}</td>
 			</tr>
 		</tbody>
 
-	
+	{% endfor %}
 
 			<tr>
-				<td>TOTAL: R$ #</td>
+				<td>TOTAL: R$ {{order_price}}</td>
 			</tr>
 	</table>
 
 
 	<a type=button class="btn btn-primary" href="{% url 'core:category_list' %}" style="margin-top: 50px;">Continue shopping</a>
-	<a type=button class="btn btn-black" href="#" style="margin-top: 50px;">Proceed to checkout</a>
+	<a type=button class="btn btn-default" href="{% url 'core:submit_order' %}" style="margin-top: 50px;">Finish your order</a>
 
 </div>
 
