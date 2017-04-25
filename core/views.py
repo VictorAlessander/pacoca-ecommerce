@@ -52,7 +52,7 @@ def remove_of_cart(request, item_cod):
 
 	if MCart.objects.filter(name=item.name).exists():
 		decrease_item = MCart.objects.get(cod=item_cod, name=item.name)
-		if decrease_item.quantity < 1:
+		if decrease_item.quantity <= 1:
 			item.delete()
 
 		else:
