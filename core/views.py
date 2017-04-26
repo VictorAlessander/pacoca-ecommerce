@@ -106,7 +106,7 @@ def submit_order(request):
 				price=item.price,
 				quantity=item.quantity,
 				owner=user,
-				session_id=session,
+				order_id=session,
 				)
 
 			submit.save_order()
@@ -122,28 +122,26 @@ def submit_order(request):
 def order_list(request):
 
 	user = request.user
-	orders = Order.objects.filter(owner=user)
+	total_price = None
+	orders = None
 
 	if request.method == 'POST':
 		form = FilterForm(request.POST or None)
-		#form.fields['session_id'] = forms.ModelChoiceField(Order.objects.filter(owner=user))
-		#form.fields['session_id'].queryset = Order.objects.filter(owner=user)
 
 		if form.is_valid():
-
 			field_content = {
-				'session_id': request.POST['session_id']
+				'order_id': request.POST['order_id']
 			}
 			
-			if field_content['session_id']:
+			if field_content['order_id']:
 				orders = Order.objects.filter(
-					session_id=form.cleaned_data.get('session_id'),
+					order_id=form.cleaned_data.get('order_id'),
 					owner=user
-					)
+				)
+				total_price = Order()
+				total_price = total_price.total(form.cleaned_data.get('order_id'), user)
 
 	else:
 		form = FilterForm()
-		#form.fields['session_id'].queryset = Order.objects.filter(owner=user)
-		#form.fields['session_id'] = forms.ModelChoiceField(Order.objects.filter(owner=user))
 
-	return render(request, 'order_list.html', {'orders': orders, 'form': form})
+	return render(request, 'order_list.html', {'orders': orders, 'form': form, 'total_price': total_price})
