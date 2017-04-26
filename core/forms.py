@@ -8,12 +8,12 @@ class FilterForm(forms.ModelForm):
 		super(FilterForm, self).__init__(*args, **kwargs)
 
 		database = Order.objects.all()
-		session_choices = database.values_list('session_id', flat=True).distinct()
-		isession_choices = [('', 'None')] + [(id, id) for id in session_choices]
-		self.fields['session_id'] = forms.ChoiceField(choices=isession_choices, widget=forms.Select(), required=False)
+		order_choices = database.values_list('order_id', flat=True).distinct()
+		iorder_choices = [('', 'None')] + [(id, id) for id in order_choices]
+		self.fields['order_id'] = forms.ChoiceField(choices=iorder_choices, widget=forms.Select(), required=False)
 
 
 	class Meta:
 		model = Order
 
-		fields = ('session_id',)
+		fields = ('order_id',)
