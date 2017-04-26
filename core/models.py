@@ -31,9 +31,10 @@ class MCart(models.Model):
 	name = models.CharField(max_length=150)
 	price = models.DecimalField(decimal_places=2, max_digits=8)
 	quantity = models.PositiveIntegerField(default=1)
+	owner = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='Usuário')
 
-	def total(self):
-		aggregate_queryset = MCart.objects.all().aggregate(
+	def total(self, user):
+		aggregate_queryset = MCart.objects.filter(owner=user).aggregate(
 			total_price=Sum(models.F('price') * models.F('quantity'), 
 				output_field=models.DecimalField(decimal_places=2, max_digits=8)
 				)

@@ -30,10 +30,12 @@ def product_list(request, category):
 @login_required
 def add_to_cart(request, item_cod):
 
+	user = request.user
+
 	item = get_object_or_404(Product, cod=item_cod)
 
-	if MCart.objects.filter(name=item.name).exists():
-		increase_item = MCart.objects.get(cod=item_cod, name=item.name)
+	if MCart.objects.filter(name=item.name, owner=user).exists():
+		increase_item = MCart.objects.get(cod=item_cod, name=item.name, owner=user)
 		increase_item.quantity = increase_item.quantity + 1
 		increase_item.save()
 
@@ -42,6 +44,30 @@ def add_to_cart(request, item_cod):
 			cod=item.cod,
 			name=item.name,
 			price=item.price,
+			owner=user,
+			)
+
+	return redirect('core:cart')
+
+
+@login_required
+def increment_item(request, item_cod):
+
+	user = request.user
+
+	item = get_object_or_404(MCart, cod=item_cod, owner=user)
+
+	if MCart.objects.filter(name=item.name, owner=user).exists():
+		increase_item = MCart.objects.get(cod=item_cod, name=item.name, owner=user)
+		increase_item.quantity = increase_item.quantity + 1
+		increase_item.save()
+
+	else:
+		add = MCart.objects.create(
+			cod=item.cod,
+			name=item.name,
+			price=item.price,
+			owner=user,
 			)
 
 	return redirect('core:cart')
@@ -50,10 +76,11 @@ def add_to_cart(request, item_cod):
 @login_required
 def remove_of_cart(request, item_cod):
 
-	item = get_object_or_404(MCart, cod=item_cod)
+	user = request.user
+	item = get_object_or_404(MCart, cod=item_cod, owner=user)
 
-	if MCart.objects.filter(name=item.name).exists():
-		decrease_item = MCart.objects.get(cod=item_cod, name=item.name)
+	if MCart.objects.filter(name=item.name, owner=user).exists():
+		decrease_item = MCart.objects.get(id=item.id, cod=item_cod, name=item.name, owner=user)
 		if decrease_item.quantity <= 1:
 			item.delete()
 
@@ -67,11 +94,12 @@ def remove_of_cart(request, item_cod):
 @login_required
 def cart(request):
 
+	user = request.user
 	session = request.COOKIES['sessionid']
 
-	item_list = MCart.objects.all()
+	item_list = MCart.objects.all().filter(owner=user)
 	total_price = MCart()
-	total_price = total_price.total()
+	total_price = total_price.total(user)
 
 	return render(request, 'cart.html', {'item_list': item_list, 'total_price': total_price, 'session': session})
 
@@ -79,9 +107,10 @@ def cart(request):
 @login_required
 def checkout(request):
 
-	order = MCart.objects.all()
+	user = request.user
+	order = MCart.objects.all().filter(owner=user)
 	total_price = MCart()
-	total_price = total_price.total()
+	total_price = total_price.total(user)
 
 	return render(request, 'checkout.html', {'order': order, 'order_price': total_price})
 
@@ -91,11 +120,11 @@ def submit_order(request):
 
 	user = request.user
 	session = request.COOKIES['sessionid']
-	cart = MCart.objects.all()
+	cart = MCart.objects.all().filter(owner=user)
 
 	for item in cart:
-		if Order.objects.filter(id=item.id, name=item.name).exists():
-			increase_item = Order.objects.get(name=item.name)
+		if Order.objects.filter(id=item.id, name=item.name, owner=user).exists():
+			increase_item = Order.objects.get(name=item.name, owner=user)
 			increase_item.quantity = increase_item.quantity + 1
 			increase_item.save()
 
