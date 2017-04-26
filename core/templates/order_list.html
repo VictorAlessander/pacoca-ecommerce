@@ -40,11 +40,13 @@
 		</tbody>
 	{% endfor %}
 
+	{% if total_price %}
 		<tbody>
 			<tr>
-				<td>TOTAL R$: #</td>
+				<td>TOTAL R$: {{total_price}}</td>
 			</tr>
 		</tbody>
+	{% endif %}
 
 	</table>
 
