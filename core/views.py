@@ -4,6 +4,7 @@ from .models import Category, Product, MCart, Order
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from .forms import FilterForm
+from django import forms
 
 
 class Index(TemplateView):
@@ -89,6 +90,7 @@ def checkout(request):
 def submit_order(request):
 
 	user = request.user
+	session = request.COOKIES['sessionid']
 	cart = MCart.objects.all()
 
 	for item in cart:
@@ -104,12 +106,13 @@ def submit_order(request):
 				price=item.price,
 				quantity=item.quantity,
 				owner=user,
-				session_id=request.COOKIES['sessionid']
+				session_id=session,
 				)
 
 			submit.save_order()
 
-	submit.refresh_from_db()
+	request.session.modified = True
+	request.session.flush()
 	cart.delete()
 
 	return redirect('core:order_list')
@@ -119,26 +122,28 @@ def submit_order(request):
 def order_list(request):
 
 	user = request.user
-	database = Order.objects.all()
+	orders = Order.objects.filter(owner=user)
 
-	orders = database.filter(owner=request.user)
-
-	if request.method == 'GET':
-		form = FilterForm(request.GET or None)
+	if request.method == 'POST':
+		form = FilterForm(request.POST or None)
+		#form.fields['session_id'] = forms.ModelChoiceField(Order.objects.filter(owner=user))
+		#form.fields['session_id'].queryset = Order.objects.filter(owner=user)
 
 		if form.is_valid():
 
 			field_content = {
-				'session_id': request.GET['session_id']
+				'session_id': request.POST['session_id']
 			}
 			
 			if field_content['session_id']:
 				orders = Order.objects.filter(
 					session_id=form.cleaned_data.get('session_id'),
-					owner=request.user
+					owner=user
 					)
 
 	else:
 		form = FilterForm()
+		#form.fields['session_id'].queryset = Order.objects.filter(owner=user)
+		#form.fields['session_id'] = forms.ModelChoiceField(Order.objects.filter(owner=user))
 
 	return render(request, 'order_list.html', {'orders': orders, 'form': form})

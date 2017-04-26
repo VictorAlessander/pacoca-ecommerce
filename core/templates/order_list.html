@@ -8,8 +8,8 @@
 
 	<h1 align="center" style="margin-top: -100px; margin-bottom: 100px;">Orders of {{user.username}}</h1>
 
-	<form class="form-control form-inline" method="get" enctype="multipart/form-data" style="margin-bottom: 50px;">
-	
+	<form class="form-control form-inline" action="." method="post" enctype="multipart/form-data" style="margin-bottom: 50px;">
+		{% csrf_token %}
 		<div class="form-group">
 			{{form.as_p}}
 		</div>
@@ -17,37 +17,36 @@
 		<button type="submit" class="btn btn-primary">Filtrate</button>
 	
 	</form>
-	
+
 	<table class="table table-bordered">
 
 	<thead>
 		<tr>
 			<td>Cod</td>
-			<td>Product Name</td>
+			<td>Item Name</td>
 			<td>Quantity</td>
 			<td>Price</td>
 		</tr>
 	</thead>
 
-
-	{% for product in orders %}
+	{% for item in orders %}
+		<tbody>
+			<tr>
+				<td>{{item.cod}}</td>
+				<td>{{item.name}}</td>
+				<td>{{item.quantity}}</td>
+				<td>R$ {{item.price}}</td>
+			</tr>
+		</tbody>
+	{% endfor %}
 
 		<tbody>
 			<tr>
-				<td>{{product.cod}}</td>
-				<td>{{product.name}}</td>
-				<td>{{product.quantity}}</td>
-				<td>R$ {{product.price}}</td>
+				<td>TOTAL R$: #</td>
 			</tr>
 		</tbody>
 
-	{% endfor %}
-
-			<tr>
-				<td>TOTAL: R$ #</td>
-			</tr>
 	</table>
-
 
 	<a type=button class="btn btn-primary" href="{% url 'core:index' %}" style="margin-top: 50px;">Return to index</a>
 
