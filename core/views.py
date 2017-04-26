@@ -66,11 +66,13 @@ def remove_of_cart(request, item_cod):
 @login_required
 def cart(request):
 
+	session = request.COOKIES['sessionid']
+
 	item_list = MCart.objects.all()
 	total_price = MCart()
 	total_price = total_price.total()
 
-	return render(request, 'cart.html', {'item_list': item_list, 'total_price': total_price})
+	return render(request, 'cart.html', {'item_list': item_list, 'total_price': total_price, 'session': session})
 
 
 @login_required
@@ -102,7 +104,7 @@ def submit_order(request):
 				price=item.price,
 				quantity=item.quantity,
 				owner=user,
-				session_id=request.session.session_key
+				session_id=request.COOKIES['sessionid']
 				)
 
 			submit.save_order()
