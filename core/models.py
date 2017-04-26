@@ -57,4 +57,4 @@ class Order(models.Model):
 		self.save()
 
 	def __str__(self):
-		return 'Order #{}'.format(self.id)
+		return 'Order #{}'.format(self.date)

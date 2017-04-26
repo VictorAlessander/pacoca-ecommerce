@@ -31,7 +31,10 @@
 			<tr>
 				<td>{{item.cod}}</td>
 				<td>{{item.name}}</td>
-				<td>{{item.quantity}}</td>
+				<td>
+					<a class="btn btn-default" type="button" href="{% url 'core:remove_of_cart' item_cod=item.cod %}">-</a>{{item.quantity}}
+					<a class="btn btn-default" type="button" href="{% url 'core:add_to_cart' item_cod=item.cod %}">+</a>
+				</td>
 				<td>R$ {{item.price}}</td>
 				<td><a type="button" onclick="return confirmation()" class="btn btn-danger" href="{% url 'core:remove_of_cart' item.cod %}">Remove</a></td>
 			</tr>

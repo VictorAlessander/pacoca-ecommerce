@@ -109,6 +109,7 @@ def submit_order(request):
 
 			submit.save_order()
 
+	submit.refresh_from_db()
 	cart.delete()
 
 	return redirect('core:order_list')
@@ -118,7 +119,9 @@ def submit_order(request):
 def order_list(request):
 
 	user = request.user
-	orders = Order.objects.filter(owner=request.user)
+	database = Order.objects.all()
+
+	orders = database.filter(owner=request.user)
 
 	if request.method == 'GET':
 		form = FilterForm(request.GET or None)
