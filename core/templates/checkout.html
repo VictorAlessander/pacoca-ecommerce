@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
 {% block title %}Checkout{% endblock %}
 
 
@@ -41,8 +43,10 @@
 
 
 	<a type=button class="btn btn-primary" href="{% url 'core:category_list' %}" style="margin-top: 50px;">Continue shopping</a>
-	<a type=button class="btn btn-default" href="{% url 'core:submit_order' %}" style="margin-top: 50px;">Finish your order</a>
+	<a type=button onclick="return finish_order()" class="btn btn-default" href="{% url 'core:submit_order' %}" style="margin-top: 50px;">Finish your order</a>
 
 </div>
+
+<script src="{% static 'javascript/order.js' %}"></script>
 
 {% endblock %}
