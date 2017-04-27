@@ -39,6 +39,7 @@
               <ul class="nav navbar-nav">
                 <li class="active"><a href="{% url 'core:index' %}">Home</a></li>
                 <li><a href="{% url 'core:category_list' %}">Categories</a></li>
+                <li><a href="{% url 'core:cart' %}">Cart</a></li>
                 {% if user.is_authenticated %}
                 <li><a href="{% url 'core:order_list' %}">{{user.username}}</a></li>
                 {% endif %}
