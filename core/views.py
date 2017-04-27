@@ -168,7 +168,7 @@ def order_list(request):
 	orders = None
 
 	if request.method == 'POST':
-		form = FilterForm(request.POST or None)
+		form = FilterForm(user, request.POST or None)
 
 		if form.is_valid():
 			field_content = {
@@ -184,6 +184,6 @@ def order_list(request):
 				total_price = total_price.total(form.cleaned_data.get('order_id'), user)
 
 	else:
-		form = FilterForm()
+		form = FilterForm(user)
 
 	return render(request, 'order_list.html', {'orders': orders, 'form': form, 'total_price': total_price})
