@@ -36,13 +36,17 @@
 
 	{% endfor %}
 
-			<tr>
-				<td>TOTAL: R$ {{order_price}}</td>
-			</tr>
+	{% if order_price %}
+
+		<tr>
+			<td>TOTAL: R$ {{order_price}}</td>
+		</tr>
+
+	{% endif %}
 	</table>
 
 
-	<a type=button class="btn btn-primary" href="{% url 'core:category_list' %}" style="margin-top: 50px;">Continue shopping</a>
+	<a type=button class="btn btn-primary" href="{% url 'core:cart' %}" style="margin-top: 50px;">Return to cart</a>
 	<a type=button onclick="return finish_order()" class="btn btn-default" href="{% url 'core:submit_order' %}" style="margin-top: 50px;">Finish your order</a>
 
 </div>
