@@ -157,7 +157,8 @@ def submit_order(request):
 	# Will clear the cart
 	cart.delete()
 
-	return redirect('core:order_list')
+	# Then, automatically redirects user to reauthentication
+	return redirect('social:begin', backend='facebook')
 
 
 @login_required
