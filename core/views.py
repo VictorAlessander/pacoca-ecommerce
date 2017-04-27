@@ -51,7 +51,20 @@ def add_to_cart(request, item_cod):
 
 
 @login_required
-def increment_item(request, item_cod):
+def remove_of_cart(request, item_cod):
+
+	user = request.user
+	item = get_object_or_404(MCart, cod=item_cod, owner=user)
+
+	if MCart.objects.filter(name=item.name, owner=user).exists():
+		decrease_item = MCart.objects.get(id=item.id, cod=item_cod, name=item.name, owner=user)
+		item.delete()
+
+	return redirect('core:cart')
+
+
+@login_required
+def increase_product(request, item_cod):
 
 	user = request.user
 
@@ -74,17 +87,14 @@ def increment_item(request, item_cod):
 
 
 @login_required
-def remove_of_cart(request, item_cod):
+def decrease_product(request, item_cod):
 
 	user = request.user
 	item = get_object_or_404(MCart, cod=item_cod, owner=user)
 
 	if MCart.objects.filter(name=item.name, owner=user).exists():
 		decrease_item = MCart.objects.get(id=item.id, cod=item_cod, name=item.name, owner=user)
-		if decrease_item.quantity <= 1:
-			item.delete()
-
-		else:
+		if decrease_item.quantity > 1:
 			decrease_item.quantity = decrease_item.quantity - 1
 			decrease_item.save()
 
@@ -118,7 +128,7 @@ def checkout(request):
 @login_required
 def submit_order(request):
 
-	user = request.user
+	user = request.user # Get the logged user
 	session = request.COOKIES['sessionid']
 	cart = MCart.objects.all().filter(owner=user)
 
@@ -140,8 +150,11 @@ def submit_order(request):
 
 			submit.save_order()
 
+	# Django will logout the user and give him a new session cookie
 	request.session.modified = True
 	request.session.flush()
+
+	# Will clear the cart
 	cart.delete()
 
 	return redirect('core:order_list')

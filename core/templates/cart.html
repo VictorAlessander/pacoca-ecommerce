@@ -32,8 +32,9 @@
 				<td>{{item.cod}}</td>
 				<td>{{item.name}}</td>
 				<td>
-					<a class="btn btn-default" type="button" href="{% url 'core:remove_of_cart' item_cod=item.cod %}">-</a>{{item.quantity}}
-					<a class="btn btn-default" type="button" href="{% url 'core:increment_item' item_cod=item.cod %}">+</a>
+					<a class="btn btn-default" type="button" href="{% url 'core:decrease_product' item_cod=item.cod %}">-</a>
+					{{item.quantity}}
+					<a class="btn btn-default" type="button" href="{% url 'core:increase_product' item_cod=item.cod %}">+</a>
 				</td>
 				<td>R$ {{item.price}}</td>
 				<td><a type="button" onclick="return confirmation()" class="btn btn-danger" href="{% url 'core:remove_of_cart' item.cod %}">Remove</a></td>
