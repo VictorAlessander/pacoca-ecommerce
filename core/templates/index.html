@@ -5,7 +5,7 @@
 
 {% block body %}
 
-<div class="container" style="margin-top: 200px; margin-bottom: 200px; text-align: center">
+<div class="container-fluid" style="margin-top: 200px; margin-bottom: 200px; text-align: center">
 	{% if user.is_authenticated %}
 		<h3>Welcome {{user.username}}</h3>
 		<a class="btn btn-danger" href="{% url 'logout' %}">Logout</a>

@@ -4,15 +4,15 @@
 
 {% block body %}
 
-<div class="container marketing" style="margin-bottom: 200px; margin-top: 200px;">
+<div class="container-fluid" style="margin-bottom: 200px; margin-top: 200px;">
   
   <h1 align="center" style="margin-top: -100px; margin-bottom: 100px;">Categories</h1>
 
-  <div class="row">
+  <div class="row-fluid">
   
   {% for category in categories %}
 
-    <div class="col-lg-4">
+    <div class="col-xs-6 col-sm-3 col-md-3">
       <p><a class="btn btn-default" href="{% url 'core:product_list' category.name %}" role="button">{{category.name}}</a></p>
     </div>
 

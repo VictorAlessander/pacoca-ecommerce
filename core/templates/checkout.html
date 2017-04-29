@@ -7,42 +7,44 @@
 
 {% block body %}
 
-<div class="container" style="margin-top: 200px; margin-bottom: 200px;">
+<div class="container-fluid" style="margin-top: 200px; margin-bottom: 200px;">
 
 	<h1 align="center" style="margin-top: -100px; margin-bottom: 100px;">Your Order</h1>
 	
-	<table class="table">
+	<div class="table-responsive">
+		<table class="table">
 
-	<thead>
-		<tr>
-			<td>Product Name</td>
-			<td>Quantity</td>
-			<td>Price</td>
-		</tr>
-	</thead>
-
-
-	{% for item in order %}
-
-		<tbody>
+		<thead>
 			<tr>
-				<td>{{item.name}}</td>
-				<td>{{item.quantity}}</td>
-				<td>R$ {{item.price}}</td>
+				<td>Product Name</td>
+				<td>Quantity</td>
+				<td>Price</td>
 			</tr>
-		</tbody>
+		</thead>
 
-	{% endfor %}
 
-	{% if order_price %}
+		{% for item in order %}
 
-		<tr>
-			<td>TOTAL: R$ {{order_price}}</td>
-		</tr>
+			<tbody>
+				<tr>
+					<td>{{item.name}}</td>
+					<td>{{item.quantity}}</td>
+					<td>R$ {{item.price}}</td>
+				</tr>
+			</tbody>
 
-	{% endif %}
-	</table>
+		{% endfor %}
 
+		{% if order_price %}
+
+			<tr>
+				<td>TOTAL: R$ {{order_price}}</td>
+			</tr>
+
+		{% endif %}
+		</table>
+
+	</div>
 
 	<a type=button class="btn btn-primary" href="{% url 'core:cart' %}" style="margin-top: 50px;">Return to cart</a>
 	<a type=button onclick="return finish_order()" class="btn btn-default" href="{% url 'core:submit_order' %}" style="margin-top: 50px;">Finish your order</a>

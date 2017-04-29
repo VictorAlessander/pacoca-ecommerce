@@ -7,58 +7,59 @@
 
 {% block body %}
 
-<div class="container" style="margin-top: 200px; margin-bottom: 200px;">
+<div class="container-fluid" style="margin-top: 200px; margin-bottom: 200px;">
 
 	<h1 align="center" style="margin-top: -100px; margin-bottom: 100px;">Cart</h1>
-	<h2 align="center">Order Key {{session}}</h2>
+	<h4 align="center">Order Key {{session}}</h4>
 	
-	<table class="table table-striped">
+	<div class="table-responsive">
+		<table class="table table-striped">
 
-	<thead>
-		<tr>
-			<td>Cod</td>
-			<td>Product Name</td>
-			<td>Quantity</td>
-			<td>Price</td>
-			<td></td>
-		</tr>
-	</thead>
-
-
-	{% for item in item_list %}
-
-		<tbody>
+		<thead>
 			<tr>
-				<td>{{item.cod}}</td>
-				<td>{{item.name}}</td>
-				<td>
-					<a class="btn btn-default" type="button" href="{% url 'core:decrease_product' item_cod=item.cod %}">-</a>
-					{{item.quantity}}
-					<a class="btn btn-default" type="button" href="{% url 'core:increase_product' item_cod=item.cod %}">+</a>
-				</td>
-				<td>R$ {{item.price}}</td>
-				<td><a type="button" onclick="return confirmation()" class="btn btn-danger" href="{% url 'core:remove_of_cart' item.cod %}">Remove</a></td>
+				<td>Cod</td>
+				<td>Product Name</td>
+				<td>Quantity</td>
+				<td>Price</td>
+				<td></td>
 			</tr>
-		</tbody>
-
-	{% endfor %}
-
-			{% if total_price %}
-			<tr>
-				<td>TOTAL: R$ {{total_price}}</td>
-			</tr>
-
-			{% else %}
-			<tr>
-				<td>TOTAL: R$ 0</td>
-			</tr>
-
-			{% endif %}
-	</table>
+		</thead>
 
 
-	<a type=button class="btn btn-primary" href="{% url 'core:category_list' %}" style="margin-top: 50px;">Continue shopping</a>
-	<a type=button class="btn btn-success" href="{% url 'core:checkout' %}" style="margin-top: 50px;">Proceed to checkout</a>
+		{% for item in item_list %}
+
+			<tbody>
+				<tr>
+					<td>{{item.cod}}</td>
+					<td>{{item.name}}</td>
+					<td>
+						<a class="btn btn-default" type="button" href="{% url 'core:decrease_product' item_cod=item.cod %}">-</a>
+						{{item.quantity}}
+						<a class="btn btn-default" type="button" href="{% url 'core:increase_product' item_cod=item.cod %}">+</a>
+					</td>
+					<td>R$ {{item.price}}</td>
+					<td><a type="button" onclick="return confirmation()" class="btn btn-danger" href="{% url 'core:remove_of_cart' item.cod %}">Remove</a></td>
+				</tr>
+			</tbody>
+
+		{% endfor %}
+
+				{% if total_price %}
+				<tr>
+					<td>TOTAL: R$ {{total_price}}</td>
+				</tr>
+
+				{% else %}
+				<tr>
+					<td>TOTAL: R$ 0</td>
+				</tr>
+
+				{% endif %}
+		</table>
+	</div>
+
+		<a type=button class="btn btn-primary" href="{% url 'core:category_list' %}" style="margin-top: 50px;">Continue shopping</a>
+		<a type=button class="btn btn-success" href="{% url 'core:checkout' %}" style="margin-top: 50px;">Proceed to checkout</a>
 
 </div>
 
