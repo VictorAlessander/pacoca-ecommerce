@@ -2,8 +2,7 @@
 
 A project proposed by a certain company to battle for a job.
 
-
-# 03 May 2017
+# Updated
 
 Now, this project have study purposes.
 
