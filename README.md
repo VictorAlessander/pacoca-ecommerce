@@ -1,4 +1,4 @@
-# Django Ecommerce
+# Paçoca Ecommerce
 
 A project proposed by a certain company to battle for a job.
 
