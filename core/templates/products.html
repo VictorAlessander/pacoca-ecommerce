@@ -21,7 +21,7 @@
       {% endif %}
       <h2>{{product.name}}</h2>
       <p>Price: R$ {{product.price}}</p>
-      <p><a class="btn btn-default" onclick="return added_to_cart()" href="{% url 'core:add_to_cart' item_cod=product.cod %}" role="button">Buy &raquo;</a></p>
+      <p><button id="add" class="btn btn-default" role="button" data-productCod={{product.cod}}>Buy &raquo;</button></p>
     </div>
 
     {% endfor %}
@@ -30,6 +30,10 @@
 
 </div>
 
+<script
+			  src="https://code.jquery.com/jquery-3.3.1.js"
+			  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+			  crossorigin="anonymous"></script>
 <script src="{% static 'javascript/products.js' %}"></script>
 
 {% endblock %}

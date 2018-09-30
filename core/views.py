@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from .forms import FilterForm
 from django import forms
+from django.http import JsonResponse
 
 
 class Index(TemplateView):
@@ -28,9 +29,10 @@ def product_list(request, category):
 
 
 @login_required
-def add_to_cart(request, item_cod):
+def add_to_cart(request):
 
 	user = request.user
+	item_cod = request.GET['cod']
 
 	item = get_object_or_404(Product, cod=item_cod)
 
@@ -40,14 +42,14 @@ def add_to_cart(request, item_cod):
 		increase_item.save()
 
 	else:
-		MCart.objects.create(
+		add = MCart.objects.create(
 			cod=item.cod,
 			name=item.name,
 			price=item.price,
 			owner=user,
 			)
 
-	return redirect('core:cart')
+	return JsonResponse({'data': 'Added to cart.'})
 
 
 @login_required
@@ -57,7 +59,6 @@ def remove_of_cart(request, item_cod):
 	item = get_object_or_404(MCart, cod=item_cod, owner=user)
 
 	if MCart.objects.filter(name=item.name, owner=user).exists():
-		# decrease_item = MCart.objects.get(id=item.id, cod=item_cod, name=item.name, owner=user)
 		item.delete()
 
 	return redirect('core:cart')
