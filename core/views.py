@@ -40,7 +40,7 @@ def add_to_cart(request, item_cod):
 		increase_item.save()
 
 	else:
-		add = MCart.objects.create(
+		MCart.objects.create(
 			cod=item.cod,
 			name=item.name,
 			price=item.price,
@@ -57,7 +57,7 @@ def remove_of_cart(request, item_cod):
 	item = get_object_or_404(MCart, cod=item_cod, owner=user)
 
 	if MCart.objects.filter(name=item.name, owner=user).exists():
-		decrease_item = MCart.objects.get(id=item.id, cod=item_cod, name=item.name, owner=user)
+		# decrease_item = MCart.objects.get(id=item.id, cod=item_cod, name=item.name, owner=user)
 		item.delete()
 
 	return redirect('core:cart')
@@ -76,7 +76,7 @@ def increase_product(request, item_cod):
 		increase_item.save()
 
 	else:
-		add = MCart.objects.create(
+		MCart.objects.create(
 			cod=item.cod,
 			name=item.name,
 			price=item.price,
