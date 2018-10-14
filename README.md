@@ -1,4 +1,4 @@
-# Paçoca Ecommerce
+# Paçoca Ecommerce (Original version)
 
 A project proposed by a certain company to battle for a job.
 
